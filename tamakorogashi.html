@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<canvas id="c" width="640" height="480" style="border:1px solid black"></canvas>
+<script>
+var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+var x = 320;
+var y = 240;
+var vx = 0;
+var vy = 0;
+
+function loop(){
+	x += vx;
+	y += vy;
+
+	ctx.clearRect( 0, 0, 640, 480 );
+	ctx.fillStyle = "#10ff50"
+	ctx.beginPath();
+	ctx.arc( x, y, 20, 0, 2 * Math.PI, true );
+	ctx.fill();
+
+	setTimeout( "loop()", 1 );
+}
+window.ondevicemotion = function(e){
+	var a = e.accelerationIncludingGravity;
+	if( navigator.userAgent.indexOf( "Android" ) > 0 ){
+		vx += 0.1 * a.x;
+		vy -= 0.1 * a.y;
+	}
+	else{
+		vx -= 0.1 * a.x;
+		vy -= 0.1 * a.y;
+	}
+}
+loop();
+</script>
